@@ -1,6 +1,6 @@
-package com.ua.foxminded.division;
+package com.ua.foxminded.division.core;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class DivisionTest {
+class ColumnDivisionTest {
 
     private static final int ZERO = 0;
     private static final int ONE = 1;
@@ -73,14 +73,9 @@ class DivisionTest {
 		    TRIPLE_WHITE_SPACES + TRIPLE_HYPHENS, QUADRUPLE_WHITE_SPACES + SIXTEEN));
 
 
-    Division division;
+    ColumnDivision columnDivision;
     private ByteArrayOutputStream outContent;
     private PrintStream originalOut;
-
-    @BeforeEach
-    void init() {
-	division = new Division();
-    }
 
     @BeforeEach
     void setUpSteam() {
@@ -95,42 +90,46 @@ class DivisionTest {
 
     @Test
     void shouldThrowArithmeticException() {
-	assertThrows(ArithmeticException.class, () -> division.printResult(ONE, ZERO));
+	assertThrows(ArithmeticException.class, () -> new ColumnDivision(ONE, ZERO));
     }
 
     @Test
     void shouldPrintCorrectResultWhenZeroDivideByOne() {
+	columnDivision = new ColumnDivision(ZERO, ONE);
 	StringBuilder expected = new StringBuilder();
 	for (String line : RESULT_OF_ZERO_DIVIDE_BY_ONE)
-	    expected.append(line + System.getProperty("line.separator"));
-	division.printResult(ZERO, ONE);
+	    expected.append(line + System.lineSeparator());
+	columnDivision.printResult();
 	assertEquals(expected.toString(), outContent.toString());
     }
-    
+
     @Test
     void shouldReturnCorrectResultWhenOneDivideOne() {
+	columnDivision = new ColumnDivision(ONE, ONE);
 	StringBuilder expected = new StringBuilder();
 	for (String line : RESULT_OF_ONE_DIVIDE_BY_ONE)
-	    expected.append(line + System.getProperty("line.separator"));
-	division.printResult(ONE, ONE);
+	    expected.append(line + System.lineSeparator());
+	columnDivision.printResult();
 	assertEquals(expected.toString(), outContent.toString());
     }
 
     @Test
     void shouldReturnCorrectResultWhenSevenHundredFiftyFourDivideByFour() {
+	columnDivision = new ColumnDivision(SEVEN_HUNDRED_FIFTY_FOUR, FOUR);
 	StringBuilder expected = new StringBuilder();
 	for (String line : RESULT_OF_SEVEN_HUNDRED_FIFTY_FOUR_DIVIDE_BY_FOUR)
-	    expected.append(line + System.getProperty("line.separator"));
-	division.printResult(SEVEN_HUNDRED_FIFTY_FOUR, FOUR);
+	    expected.append(line + System.lineSeparator());
+	columnDivision.printResult();
 	assertEquals(expected.toString(), outContent.toString());
     }
 
     @Test
     void shouldReturnCorrectResultWhenThrirtyThousandFourDivideByTwentyOne() {
+	columnDivision = new ColumnDivision(THIRTY_THOUSAND_FOUR, TWENTY_ONE);
 	StringBuilder expected = new StringBuilder();
 	for (String line : RESULT_OF_THIRTY_THOUSAND_FOUR_DIVIDE_BY_TWENTY_ONE)
-	    expected.append(line + System.getProperty("line.separator"));
-	division.printResult(THIRTY_THOUSAND_FOUR, TWENTY_ONE);
+	    expected.append(line + System.lineSeparator());
+	columnDivision.printResult();
 	assertEquals(expected.toString(), outContent.toString());
     }
 
