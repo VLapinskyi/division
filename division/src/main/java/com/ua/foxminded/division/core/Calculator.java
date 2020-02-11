@@ -4,19 +4,21 @@ import static java.lang.Integer.parseInt;
 
 import java.util.ArrayList;
 
-class Calculator {
+public class Calculator {
     
-    private Calculator() {
-	throw new IllegalStateException("Utility class");
-    }
 
     public static final int ZERO = 0;
-
-    protected static int setResultOfDivision(int divided, int divider) {
-	return divided / divider;
-    }
     
-    protected static ArrayList<Integer> setRemainsOfDivision(int divided, int divider) {
+    public DivisionData divide(int divided, int divider) {
+	DivisionData divisionData = new DivisionData();
+	divisionData.setDivided(divided);
+	divisionData.setDivider(divider);
+	divisionData.setResult(divided / divider);
+	divisionData.setRemains(setRemainsOfDivision(divided, divider));
+	return divisionData;
+    }
+
+    private ArrayList<Integer> setRemainsOfDivision(int divided, int divider) {
 	ArrayList<Integer> remains = new ArrayList<>();
 	if (divided < divider) {
 	    remains.add(divided);
@@ -44,8 +46,9 @@ class Calculator {
 	return remains;
     }
 
-    private static char[] toArrayNumber(int number) {
+    private char[] toArrayNumber(int number) {
 	String textNumber = Integer.toString(number);
 	return textNumber.toCharArray();
     }
+
 }

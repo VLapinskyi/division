@@ -2,18 +2,26 @@ package com.ua.foxminded.division.core;
 
 import java.util.ArrayList;
 
-public class FormatterResult {
+public class Formatter {
     private static final String MINUS = "\u0332 ";
     private static final String VERTICAL_BAR = "|";
     private static final String WHITE_SPACE = " ";
     private static final String HYPHEN = "\u002D";
     private static final String BLANK = "";
 
-    private FormatterResult() {
-	throw new IllegalStateException("Utility class");
+    public String format(DivisionData divisionData) {
+	StringBuilder formattedDivision = new StringBuilder();
+	ArrayList<String> divisionText = setDivisionText(divisionData.getDivided(), divisionData.getDivider(),
+		divisionData.getRemains(), divisionData.getResult());
+	for (int i = 0; i < divisionText.size(); i++) {
+	    formattedDivision.append(divisionText.get(i));
+	    if (i != divisionText.size() - 1)
+		formattedDivision.append(System.lineSeparator());
+	}
+	return formattedDivision.toString();
     }
 
-    protected static ArrayList<String> setDivisionText(int divided, int divider, ArrayList<Integer> remains,
+    private ArrayList<String> setDivisionText(int divided, int divider, ArrayList<Integer> remains,
 	    int result) {
 	ArrayList<String> divisionLines = new ArrayList<>();
 	ArrayList<String> symbolsBeforeRemains = setSymbolsBeforeRemains(remains);
@@ -38,7 +46,7 @@ public class FormatterResult {
 	return divisionLines;
     }
 
-    private static ArrayList<String> setSymbolsBeforeRemains(ArrayList<Integer> remains) {
+    private ArrayList<String> setSymbolsBeforeRemains(ArrayList<Integer> remains) {
 	ArrayList<String> symbolsBeforeRemains = new ArrayList<>();
 
 	for (int i = 0; i < remains.size(); i++) {
@@ -59,7 +67,7 @@ public class FormatterResult {
 	return symbolsBeforeRemains;
     }
 
-    private static String setSymbolsForOddPositions(ArrayList<String> symbolsBeforeRemains, ArrayList<Integer> remains,
+    private String setSymbolsForOddPositions(ArrayList<String> symbolsBeforeRemains, ArrayList<Integer> remains,
 	    int numberOfPosition) {
 	StringBuilder symbols = new StringBuilder();
 	symbols.append(symbolsBeforeRemains.get(symbolsBeforeRemains.size() - 1).replace(MINUS, BLANK));
@@ -71,7 +79,7 @@ public class FormatterResult {
 	return symbols.toString();
     }
 
-    private static String setSymbolsForEvenPositions(ArrayList<String> symbolsBeforeRemains, ArrayList<Integer> remains,
+    private String setSymbolsForEvenPositions(ArrayList<String> symbolsBeforeRemains, ArrayList<Integer> remains,
 	    int numberOfPosition) {
 	StringBuilder symbols = new StringBuilder();
 	if (takeNumberLength(remains.get(numberOfPosition)) - takeNumberLength(remains.get(numberOfPosition - 2)) == 1)
@@ -81,7 +89,7 @@ public class FormatterResult {
 	return symbols.toString();
     }
 
-    private static String setSymbolsForTheLastPosition(ArrayList<String> symbolsBeforeRemains,
+    private String setSymbolsForTheLastPosition(ArrayList<String> symbolsBeforeRemains,
 	    ArrayList<Integer> remains, int numberOfPosition) {
 	StringBuilder symbols = new StringBuilder();
 	symbols.append(symbolsBeforeRemains.get(numberOfPosition - 2).replace(MINUS, BLANK));
@@ -92,19 +100,19 @@ public class FormatterResult {
 	return symbols.toString();
     }
 
-    private static String setHyphensForTheFirstBlock(ArrayList<Integer> remains) {
+    private String setHyphensForTheFirstBlock(ArrayList<Integer> remains) {
 	String input = WHITE_SPACE + remains.get(0);
 	return input.replaceAll("\\d", HYPHEN);
     }
 
-    private static String setHyphensForOtherBlocks(ArrayList<String> divisionLines) {
+    private String setHyphensForOtherBlocks(ArrayList<String> divisionLines) {
 	String input = divisionLines.get(divisionLines.size() - 2);
 	String hyphens = input.replace(MINUS, WHITE_SPACE);
 	hyphens = hyphens.replaceAll("\\d", HYPHEN);
 	return hyphens;
     }
 
-    private static ArrayList<String> setRightSide(int divided, int divider, ArrayList<Integer> remains, int result) {
+    private ArrayList<String> setRightSide(int divided, int divider, ArrayList<Integer> remains, int result) {
 	ArrayList<String> rightSide = new ArrayList<>();
 	StringBuilder firstLine = new StringBuilder();
 	StringBuilder secondLine = new StringBuilder();
@@ -130,7 +138,7 @@ public class FormatterResult {
 	return rightSide;
     }
 
-    private static int takeNumberLength(int number) {
+    private int takeNumberLength(int number) {
 	return Integer.toString(number).length();
     }
 }
