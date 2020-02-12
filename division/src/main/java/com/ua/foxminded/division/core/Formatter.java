@@ -11,8 +11,11 @@ public class Formatter {
 
     public String format(DivisionData divisionData) {
 	StringBuilder formattedDivision = new StringBuilder();
-	ArrayList<String> divisionText = setDivisionText(divisionData.getDivided(), divisionData.getDivider(),
-		divisionData.getRemains(), divisionData.getResult());
+	ArrayList<String> divisionText = setDivisionText(
+		divisionData.getDivided(),
+		divisionData.getDivider(),
+		divisionData.getRemains(),
+		divisionData.getResult());
 	for (int i = 0; i < divisionText.size(); i++) {
 	    formattedDivision.append(divisionText.get(i));
 	    if (i != divisionText.size() - 1)
@@ -54,39 +57,50 @@ public class Formatter {
 	    if (i == 0)
 		symbolsBeforeRemains.add(MINUS);
 
-	    else if (i % 2 == 1)
-		symbolsBeforeRemains.add(setSymbolsForOddPositions(symbolsBeforeRemains, remains, i));
-
-	    else if (i % 2 == 0 && i != remains.size() - 1)
-		symbolsBeforeRemains.add(setSymbolsForEvenPositions(symbolsBeforeRemains, remains, i));
-
 	    else if (i == remains.size() - 1)
 		symbolsBeforeRemains.add(setSymbolsForTheLastPosition(symbolsBeforeRemains, remains, i));
+
+	    else
+		symbolsBeforeRemains.add(setSymbolsForMiddlePositions(symbolsBeforeRemains, remains, i));
 
 	}
 	return symbolsBeforeRemains;
     }
 
-    private String setSymbolsForOddPositions(ArrayList<String> symbolsBeforeRemains, ArrayList<Integer> remains,
+    private String setSymbolsForMiddlePositions(ArrayList<String> symbolsBeforeRemains, ArrayList<Integer> remains,
 	    int numberOfPosition) {
+	if (numberOfPosition % 2 == 1) {
 	StringBuilder symbols = new StringBuilder();
-	symbols.append(symbolsBeforeRemains.get(symbolsBeforeRemains.size() - 1).replace(MINUS, BLANK));
+	    symbols.append(symbolsBeforeRemains.get(symbolsBeforeRemains.size() - 1).replace(MINUS, WHITE_SPACE));
 	int quantity = takeNumberLength(remains.get(numberOfPosition - 1))
-		- takeNumberLength(remains.get(numberOfPosition)) + 1; // +1 - instead of MINUS from the higher
-								       // line
+		    - takeNumberLength(remains.get(numberOfPosition));
 	for (int i = 0; i < quantity; i++)
 	    symbols.append(WHITE_SPACE);
 	return symbols.toString();
-    }
-
-    private String setSymbolsForEvenPositions(ArrayList<String> symbolsBeforeRemains, ArrayList<Integer> remains,
-	    int numberOfPosition) {
-	StringBuilder symbols = new StringBuilder();
-	if (takeNumberLength(remains.get(numberOfPosition)) - takeNumberLength(remains.get(numberOfPosition - 2)) == 1)
-	    symbols.append(symbolsBeforeRemains.get(numberOfPosition - 2));
-	else
-	    symbols.append(WHITE_SPACE + symbolsBeforeRemains.get(numberOfPosition - 2));
-	return symbols.toString();
+	} else {
+	    int resultOfPreviousRemains = remains.get(numberOfPosition - 2) - remains.get(numberOfPosition - 1);
+	    StringBuilder symbols = new StringBuilder();
+	    if (resultOfPreviousRemains == 0) {
+		symbols.append(symbolsBeforeRemains.get(symbolsBeforeRemains.size() - 1));
+		int quantity = takeNumberLength(remains.get(numberOfPosition - 1)) - 1;
+		for (int i = 0; i < quantity; i++)
+		    symbols.append(WHITE_SPACE);
+		symbols.append(MINUS);
+	    } else {
+		int quantity = takeNumberLength(remains.get(numberOfPosition - 1))
+			- takeNumberLength(resultOfPreviousRemains) - 1;
+		if (quantity == -1)
+		    symbols.append(
+			    replaceLastWhiteSpaceWithMinus(symbolsBeforeRemains.get(symbolsBeforeRemains.size() - 1)));
+		else {
+		symbols.append(symbolsBeforeRemains.get(symbolsBeforeRemains.size() - 1));
+		for (int i = 1; i <= quantity; i++)
+		    symbols.append(WHITE_SPACE);
+		symbols.append(MINUS);
+		}
+	    }
+	    return symbols.toString();
+	}
     }
 
     private String setSymbolsForTheLastPosition(ArrayList<String> symbolsBeforeRemains,
@@ -94,10 +108,14 @@ public class Formatter {
 	StringBuilder symbols = new StringBuilder();
 	symbols.append(symbolsBeforeRemains.get(numberOfPosition - 2).replace(MINUS, BLANK));
 	int quantity = takeNumberLength(remains.get(numberOfPosition - 2))
-		- takeNumberLength(remains.get(numberOfPosition)) + 1; // +1 - instead of MINUS
+		- takeNumberLength(remains.get(numberOfPosition)) + 1;
 	for (int i = 0; i < quantity; i++)
 	    symbols.append(WHITE_SPACE);
 	return symbols.toString();
+    }
+
+    private String replaceLastWhiteSpaceWithMinus(String textForReplacement) {
+	return textForReplacement.substring(0, textForReplacement.length() - 1) + MINUS;
     }
 
     private String setHyphensForTheFirstBlock(ArrayList<Integer> remains) {

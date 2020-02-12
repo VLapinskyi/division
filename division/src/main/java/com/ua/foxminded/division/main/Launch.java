@@ -8,7 +8,7 @@ public class Launch {
 
     public static void main(String[] args) {
 	Calculator calculator = new Calculator();
-	DivisionData divisionData = calculator.divide(754, 4);
+	DivisionData divisionData = calculator.divide(78945, 4);
 	Formatter formatter = new Formatter();
 	System.out.print(formatter.format(divisionData));
     }

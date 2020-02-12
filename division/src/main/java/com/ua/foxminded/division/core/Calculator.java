@@ -5,7 +5,6 @@ import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 
 public class Calculator {
-    
 
     public static final int ZERO = 0;
     
