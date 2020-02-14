@@ -18,8 +18,9 @@ public class Formatter {
 		divisionData.getResult());
 	for (int i = 0; i < divisionText.size(); i++) {
 	    formattedDivision.append(divisionText.get(i));
-	    if (i != divisionText.size() - 1)
+	    if (i != divisionText.size() - 1) {
 		formattedDivision.append(System.lineSeparator());
+	    }
 	}
 	return formattedDivision.toString();
     }
@@ -40,10 +41,11 @@ public class Formatter {
 		divisionLines.add(symbolsBeforeRemains.get(i) + remains.get(i));
 	    }
 	    if (i % 2 == 1 && i != 1 && i != remains.size() - 1) {
-		if (i == 1)
+		if (i == 1) {
 		    divisionLines.add(setHyphensForTheFirstBlock(remains));
-		else
+		} else {
 		    divisionLines.add(setHyphensForOtherBlocks(divisionLines));
+		}
 	    }
 	}
 	return divisionLines;
@@ -54,15 +56,13 @@ public class Formatter {
 
 	for (int i = 0; i < remains.size(); i++) {
 
-	    if (i == 0)
+	    if (i == 0) {
 		symbolsBeforeRemains.add(MINUS);
-
-	    else if (i == remains.size() - 1)
+	    } else if (i == remains.size() - 1) {
 		symbolsBeforeRemains.add(setSymbolsForTheLastPosition(symbolsBeforeRemains, remains, i));
-
-	    else
+	    } else {
 		symbolsBeforeRemains.add(setSymbolsForMiddlePositions(symbolsBeforeRemains, remains, i));
-
+	    }
 	}
 	return symbolsBeforeRemains;
     }
@@ -74,8 +74,9 @@ public class Formatter {
 	    symbols.append(symbolsBeforeRemains.get(symbolsBeforeRemains.size() - 1).replace(MINUS, WHITE_SPACE));
 	int quantity = takeNumberLength(remains.get(numberOfPosition - 1))
 		    - takeNumberLength(remains.get(numberOfPosition));
-	for (int i = 0; i < quantity; i++)
+	    for (int i = 0; i < quantity; i++) {
 	    symbols.append(WHITE_SPACE);
+	    }
 	return symbols.toString();
 	} else {
 	    int resultOfPreviousRemains = remains.get(numberOfPosition - 2) - remains.get(numberOfPosition - 1);
@@ -83,19 +84,22 @@ public class Formatter {
 	    if (resultOfPreviousRemains == 0) {
 		symbols.append(symbolsBeforeRemains.get(symbolsBeforeRemains.size() - 1));
 		int quantity = takeNumberLength(remains.get(numberOfPosition - 1)) - 1;
-		for (int i = 0; i < quantity; i++)
+		for (int i = 0; i < quantity; i++) {
 		    symbols.append(WHITE_SPACE);
+		}
 		symbols.append(MINUS);
 	    } else {
 		int quantity = takeNumberLength(remains.get(numberOfPosition - 1))
 			- takeNumberLength(resultOfPreviousRemains) - 1;
-		if (quantity == -1)
+		if (quantity == -1) {
 		    symbols.append(
 			    replaceLastWhiteSpaceWithMinus(symbolsBeforeRemains.get(symbolsBeforeRemains.size() - 1)));
+		}
 		else {
 		symbols.append(symbolsBeforeRemains.get(symbolsBeforeRemains.size() - 1));
-		for (int i = 1; i <= quantity; i++)
+		    for (int i = 1; i <= quantity; i++) {
 		    symbols.append(WHITE_SPACE);
+		    }
 		symbols.append(MINUS);
 		}
 	    }
@@ -109,8 +113,9 @@ public class Formatter {
 	symbols.append(symbolsBeforeRemains.get(numberOfPosition - 2).replace(MINUS, BLANK));
 	int quantity = takeNumberLength(remains.get(numberOfPosition - 2))
 		- takeNumberLength(remains.get(numberOfPosition)) + 1;
-	for (int i = 0; i < quantity; i++)
+	for (int i = 0; i < quantity; i++) {
 	    symbols.append(WHITE_SPACE);
+	}
 	return symbols.toString();
     }
 

@@ -13,11 +13,11 @@ public class Calculator {
 	divisionData.setDivided(divided);
 	divisionData.setDivider(divider);
 	divisionData.setResult(divided / divider);
-	divisionData.setRemains(setRemainsOfDivision(divided, divider));
+	divisionData.setRemains(getDivisionRemains(divided, divider));
 	return divisionData;
     }
 
-    private ArrayList<Integer> setRemainsOfDivision(int divided, int divider) {
+    private ArrayList<Integer> getDivisionRemains(int divided, int divider) {
 	ArrayList<Integer> remains = new ArrayList<>();
 	if (divided < divider) {
 	    remains.add(divided);
