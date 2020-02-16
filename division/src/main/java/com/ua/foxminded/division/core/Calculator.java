@@ -5,8 +5,6 @@ import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 
 public class Calculator {
-
-    public static final int ZERO = 0;
     
     public DivisionData divide(int divided, int divider) {
 	DivisionData divisionData = new DivisionData();
@@ -21,7 +19,7 @@ public class Calculator {
 	ArrayList<Integer> remains = new ArrayList<>();
 	if (divided < divider) {
 	    remains.add(divided);
-	    remains.add(ZERO);
+	    remains.add(0);
 	    remains.add(divided);
 	} else {
 	    char[] dividedNumberArray = toArrayNumber(divided);
