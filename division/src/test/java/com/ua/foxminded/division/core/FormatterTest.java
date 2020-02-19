@@ -31,7 +31,7 @@ public class FormatterTest {
 		(Arrays.asList(0, 0, 0)));
 	when(divisionData.getResult()).thenReturn(0);
 
-	String expectedText = "̲ 0|1\r\n" + " 0|-\r\n" + " -|0\r\n" + " 0";
+	String expectedText = "̲ 0|1\r\n 0|-\r\n -|0\r\n 0";
 	
 	assertEquals(expectedText, formatter.format(divisionData));
     }
@@ -44,8 +44,7 @@ public class FormatterTest {
 		(Arrays.asList(7, 4, 35, 32, 34, 32, 2)));
 	when(divisionData.getResult()).thenReturn(188);
 	
-	String expectedText = "̲ 754|4\r\n" + " 4  |---\r\n" + " -  |188\r\n" + "̲ 35\r\n" + " 32\r\n" + " --\r\n"
-		+ " ̲ 34\r\n" + "  32\r\n" + "  --\r\n" + "   2";
+	String expectedText = "̲ 754|4\r\n 4  |---\r\n -  |188\r\n̲ 35\r\n 32\r\n --\r\n ̲ 34\r\n  32\r\n  --\r\n   2";
 
 	assertEquals(expectedText, formatter.format(divisionData));
     }
