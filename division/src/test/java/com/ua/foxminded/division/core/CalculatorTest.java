@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 public class CalculatorTest {
 
-    public Calculator calculator;
+    private Calculator calculator;
 
     @BeforeEach
     public void initCalculator() {
